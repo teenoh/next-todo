@@ -1,0 +1,46 @@
+body {
+    background-color: #282c34;
+}
+
+.add-input {
+    max-width: 400px;   
+}
+
+.todos {
+    max-width: 400px;
+}
+
+.todo-item {
+    position: relative;
+    animation-name: slideIn;
+    animation-duration: .7s;
+    animation-timing-function: ease-in-out;
+    word-break: break-all; 
+    word-wrap: break-word;
+}
+
+.todo-item .close-icon {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    display: inline-block;
+    cursor: pointer;
+    font-size: 1.5rem;
+}
+
+@keyframes slideIn {
+    0% {
+        opacity: 0;
+        transform: translateX(-4rem);
+    }
+
+    80%{
+        transform: translateX(1rem)
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
