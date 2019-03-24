@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Head from "next/head";
-import Link from "next/link";
+
+import axios from "axios";
 
 export default class Index extends Component {
   state = {
@@ -8,10 +9,20 @@ export default class Index extends Component {
     newTodo: ""
   };
 
+  static async getInitialProps() {
+    const res = await axios("http://localhost:3000/api/todos");
+    return {
+      todos: res.data.todos
+    };
+  }
+
   componentDidMount() {
+    // if (this.state.todos.length == 0) {
+    //   const savedTodos = JSON.parse(localStorage.getItem("todos")) || [];
+    //   this.setState({ todos: savedTodos });
+    // }
     if (this.state.todos.length == 0) {
-      const savedTodos = JSON.parse(localStorage.getItem("todos")) || [];
-      this.setState({ todos: savedTodos });
+      this.setState({ todos: this.props.todos });
     }
   }
 
@@ -25,7 +36,7 @@ export default class Index extends Component {
       todo: this.state.newTodo
     });
 
-    localStorage.setItem("todos", JSON.stringify(newTodos)); // save todos locally
+    // localStorage.setItem("todos", JSON.stringify(newTodos)); // save todos locally
 
     this.setState({ todos: newTodos, newTodo: "" });
   };
@@ -33,7 +44,7 @@ export default class Index extends Component {
   handleDelete = id => {
     const newTodos = this.state.todos.filter(todo => todo.id !== id);
 
-    localStorage.setItem("todos", JSON.stringify(newTodos)); // save todos locally
+    // localStorage.setItem("todos", JSON.stringify(newTodos)); // save todos locally
 
     this.setState({
       todos: newTodos
@@ -44,22 +55,24 @@ export default class Index extends Component {
     return (
       <div>
         <Head>
-          <meta charset="UTF-8" />
+          <meta charSet="UTF-8" />
           <meta
             name="viewport"
             content="width=device-width, initial-scale=1.0"
           />
-          <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+          <meta httpEquiv="X-UA-Compatible" content="ie=edge" />
           <title>Next Todo App</title>
           <link rel="stylesheet" href="/static/css/bootstrap.min.css" />
           <link rel="stylesheet" href="/static/css/main.css" />
         </Head>
 
         <main className="container">
-          <h1 className="text-white text-center mt-5">Persistent <br/> ToDo App</h1>
-          <small className="text-white text-center d-block">
+          <h1 className="text-white text-center mt-5">
+            Persistent <br /> ToDo App
+          </h1>
+          {/* <small className="text-white text-center d-block">
             (Your todos still remain even if you refresh your browser)
-          </small>
+          </small> */}
           <div className="add-input mx-auto mt-5 d-flex">
             <input
               type="text"
@@ -76,6 +89,7 @@ export default class Index extends Component {
           <div className="todos mx-auto mt-5">
             <ul className="list-group">
               {this.state.todos.map(item => {
+                console.log(item);
                 return (
                   <li className="list-group-item todo-item pr-5" key={item.id}>
                     {item.todo}

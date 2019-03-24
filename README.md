@@ -1,9 +1,7 @@
-# Persistent todo app with nextjs
+# Todo app with nextjs and custom express server
 
 To setup, run the following commands
 
 `yarn install`
 
 `yarn dev`
-
-[Live Link](https://out-lwktezywog.now.sh/)
